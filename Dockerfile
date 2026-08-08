@@ -1,5 +1,6 @@
 FROM node:22.14-bookworm-slim AS build
 WORKDIR /app
+ENV DATABASE_URL=file:/tmp/ielts.db
 RUN corepack enable && corepack prepare pnpm@11.20.0 --activate
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml prisma.config.ts tsconfig.json next.config.ts postcss.config.mjs .npmrc* ./
 COPY prisma ./prisma
@@ -9,7 +10,7 @@ RUN pnpm prisma generate && pnpm build
 
 FROM node:22.14-bookworm-slim
 WORKDIR /app
-ENV NODE_ENV=production
+ENV NODE_ENV=production DATABASE_URL=file:/app/data/ielts.db
 RUN corepack enable && corepack prepare pnpm@11.20.0 --activate
 COPY --from=build /app ./
 EXPOSE 3000
