@@ -1,0 +1,163 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model Material {
+  id          String   @id @default(cuid())
+  title       String
+  skill       SkillTag
+  fileType    String   // pdf|docx|txt|image
+  storedName  String   // sanitized, e.g. <id>.pdf
+  rawText     String
+  chunkCount  Int      @default(0)
+  createdAt   DateTime @default(now())
+  archived    Boolean  @default(false)
+  chunks      Chunk[]
+  exercises   Exercise[]
+}
+
+model Chunk {
+  id         String  @id @default(cuid())
+  materialId String
+  idx        Int
+  text       String
+  embedding  String? // JSON-encoded Float32Array (cosine RAG)
+  material   Material @relation(fields: [materialId], references: [id], onDelete: Cascade)
+}
+
+model Exercise {
+  id         String       @id @default(cuid())
+  skill      SkillTag
+  type       ExerciseType
+  difficulty Float
+  prompt     String
+  content    String        // passage / transcript / question body
+  answerKey  Json?        // objective answer key
+  materialId String?
+  material   Material?    @relation(fields: [materialId], references: [id])
+  sourceChunks Json?      // chunk ids used (RAG traceability)
+  createdAt  DateTime     @default(now())
+  attempts   Attempt[]
+}
+
+model Attempt {
+  id           String   @id @default(cuid())
+  exerciseId   String
+  exercise     Exercise @relation(fields: [exerciseId], references: [id])
+  response     String
+  audioPath    String?
+  transcript   String?
+  bandEstimate Float?
+  feedback     Json     // structured Yoru feedback
+  scores       Json
+  completedAt  DateTime @default(now())
+  sessionId    String
+  session      Session  @relation(fields: [sessionId], references: [id])
+}
+
+model Session {
+  id          String   @id @default(cuid())
+  startedAt   DateTime @default(now())
+  endedAt     DateTime?
+  skill       SkillTag?
+  xpEarned    Int      @default(0)
+  attempts    Attempt[]
+}
+
+model DiagnosticResult {
+  id            String   @id @default(cuid())
+  takenAt       DateTime @default(now())
+  readingBand   Float
+  writingBand   Float
+  listeningBand Float
+  speakingBand  Float
+  overallBand   Float
+  weakestSkill SkillTag
+  responses     Json
+}
+
+model Progress {
+  id            String   @id @default(cuid())
+  recordedAt    DateTime @default(now())
+  skill         SkillTag
+  bandEstimate  Float
+  exercisesDone Int
+}
+
+model Challenge {
+  id          String   @id @default(cuid())
+  weekStart   DateTime
+  requirements Json    // [{skill,type,count}]
+  xpReward     Int
+  completed    Boolean @default(false)
+}
+
+model UserProfile {
+  id             String    @id @default("singleton")
+  targetBand     Float     @default(7.0)
+  testDate       DateTime?
+  ieltsType      IeltsType @default(ACADEMIC)
+  totalXp        Int       @default(0)
+  level          Int       @default(1)
+  currentStreak  Int       @default(0)
+  longestStreak  Int       @default(0)
+  lastActiveDate DateTime?
+  aiBaseUrl      String    @default("http://127.0.0.1:20128/v1")
+  aiModel        String    @default("fma/claude-opus-5")
+  aiEmbedModel   String    @default("all-MiniLM-L6-v2") // local transformers.js
+  ttsProvider    String    @default("fish") // fish (free cloud) | kokoro (local CPU)
+  ttsVoice       String    @default("") // fish voice id or kokoro voice name
+  dailyGoalMin   Int       @default(30)
+  theme          String    @default("dark")
+  badges         Badge[]
+}
+
+model Badge {
+  id       String   @id @default(cuid())
+  userId   String
+  user     UserProfile @relation(fields: [userId], references: [id])
+  type     BadgeType
+  earnedAt DateTime @default(now())
+}
+
+enum SkillTag {
+  READING
+  WRITING
+  LISTENING
+  SPEAKING
+  GENERAL
+}
+
+enum ExerciseType {
+  TF_NG
+  MCQ
+  MATCHING
+  GAP_FILL
+  SHORT_ANSWER
+  WRITING_T1
+  WRITING_T2
+  SPEAKING_P1
+  SPEAKING_P2
+  SPEAKING_P3
+}
+
+enum IeltsType {
+  ACADEMIC
+  GENERAL
+}
+
+enum BadgeType {
+  FIRST_EXERCISE
+  STREAK_7
+  STREAK_30
+  BAND_IMPROVED
+  WRITING_MASTER
+  SPEAKING_BRAVE
+  FULL_DIAGNOSTIC
+  WEEKLY_CHALLENGE
+}
