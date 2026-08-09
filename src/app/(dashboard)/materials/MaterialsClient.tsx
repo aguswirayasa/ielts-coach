@@ -10,6 +10,8 @@ export function MaterialsClient() {
   const [skill, setSkill] = useState("GENERAL");
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState("");
+  const [notebookTitle, setNotebookTitle] = useState("");
+  const [notebookText, setNotebookText] = useState("");
 
   async function load() {
     const res = await fetch("/api/materials");
@@ -18,6 +20,16 @@ export function MaterialsClient() {
   useEffect(() => {
     void fetch("/api/materials").then((res) => res.ok ? res.json() : []).then(setMaterials);
   }, []);
+
+  async function importNotebook() {
+    if (!notebookText.trim()) return;
+    setBusy(true); setMessage("");
+    const res = await fetch("/api/materials/import", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ title: notebookTitle, skill, markdown: notebookText }) });
+    const data = await res.json();
+    setMessage(res.ok ? "NotebookLM export indexed." : data.error ?? "Import failed.");
+    if (res.ok) { setNotebookText(""); setNotebookTitle(""); await load(); }
+    setBusy(false);
+  }
 
   async function upload(file?: File) {
     if (!file) return;
@@ -44,7 +56,16 @@ export function MaterialsClient() {
             <input type="file" accept=".txt,.md,text/plain,text/markdown" className="sr-only" disabled={busy} onChange={(e) => void upload(e.target.files?.[0])} />
           </label>
         </div>
-        <p className="mt-3 text-sm text-muted-foreground">Phase 2 currently accepts text materials. Files are chunked and stored locally for retrieval.</p>
+        <div className="mt-6 border-t pt-5">
+          <h2 className="text-sm font-medium">Import NotebookLM export</h2>
+          <p className="mt-1 text-sm text-muted-foreground">Paste exported Markdown with citations. It stays tagged as NotebookLM material.</p>
+          <div className="mt-3 grid gap-3">
+            <input value={notebookTitle} onChange={(e) => setNotebookTitle(e.target.value)} placeholder="Notebook title" className="h-10 rounded-lg border bg-background px-3 text-sm" />
+            <textarea value={notebookText} onChange={(e) => setNotebookText(e.target.value)} placeholder="Paste NotebookLM Markdown here" rows={7} className="rounded-lg border bg-background p-3 text-sm" />
+            <button type="button" onClick={() => void importNotebook()} disabled={busy || !notebookText.trim()} className="pressable min-h-10 w-fit rounded-lg border px-4 text-sm font-medium hover:bg-muted disabled:opacity-50">Import export</button>
+          </div>
+        </div>
+        <p className="mt-3 text-sm text-muted-foreground">Files are chunked and stored locally for retrieval.</p>
         {message && <p className="mt-3 text-sm text-primary" role="status">{message}</p>}
       </div>
       <section className="space-y-3" aria-label="Uploaded materials">
