@@ -1,11 +1,12 @@
 import Link from "next/link";
-import { NavLinks } from "@/components/layout/NavLinks";
+import { NavLinks, TabBar } from "@/components/layout/NavLinks";
 import { YoruStatusPill } from "@/components/yoru/YoruStatusPill";
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="flex min-h-dvh">
-      <aside className="flex w-64 shrink-0 flex-col border-r border-sidebar-border bg-sidebar text-sidebar-foreground">
+    <div className="min-h-dvh bg-background">
+      {/* Desktop: translucent sidebar, content scrolls beneath it */}
+      <aside className="glass fixed inset-y-0 left-0 z-40 hidden w-64 flex-col border-r border-white/[0.06] lg:flex">
         <div className="flex items-center gap-3 px-6 py-6">
           <span
             aria-hidden
@@ -19,16 +20,35 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           </div>
         </div>
         <NavLinks />
-        <div className="border-t border-sidebar-border px-6 py-4 text-xs text-sidebar-foreground">
+        <div className="border-t border-white/[0.06] px-6 py-4 text-xs text-sidebar-foreground">
           Yoru v0.1, local and private
         </div>
       </aside>
-      <div className="flex min-w-0 flex-1 flex-col">
-        <header className="flex h-16 items-center justify-end gap-4 border-b border-border bg-background px-8">
+
+      {/* Top chrome: brand on mobile, status on both */}
+      <header className="glass sticky top-0 z-30 flex h-14 items-center justify-between border-b border-white/[0.06] px-4 lg:ml-64 lg:px-8">
+        <Link href="/" className="pressable flex items-center gap-2.5 lg:hidden">
+          <span
+            aria-hidden
+            className="h-5 w-5 rounded-md bg-[repeating-linear-gradient(45deg,#ff6363_0_2px,transparent_2px_4px)]"
+          />
+          <span className="font-heading text-[15px] font-semibold tracking-tight text-foreground">
+            IELTS Coach
+          </span>
+        </Link>
+        <div className="ml-auto lg:ml-0 lg:w-full lg:justify-end lg:flex">
           <YoruStatusPill />
-        </header>
-        <main className="flex-1 p-8 lg:p-10">{children}</main>
-      </div>
+        </div>
+      </header>
+
+      <main className="mx-auto w-full max-w-5xl px-4 pt-6 pb-28 lg:mx-0 lg:ml-64 lg:w-[calc(100%-16rem)] lg:max-w-none lg:px-10 lg:pt-10 lg:pb-10">
+        {children}
+      </main>
+
+      {/* Mobile: iOS-style translucent tab bar, safe-area aware */}
+      <nav className="glass fixed inset-x-0 bottom-0 z-40 border-t border-white/[0.06] pb-[env(safe-area-inset-bottom)] lg:hidden">
+        <TabBar />
+      </nav>
     </div>
   );
 }

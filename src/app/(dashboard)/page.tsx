@@ -31,9 +31,9 @@ export default function DashboardPage() {
         className="space-y-8"
       >
         <motion.div variants={fadeUp} transition={fadeUpTransition}>
-          <Link href="/diagnostic" className="block">
-            <div className="rounded-2xl border border-[#ff6363]/30 bg-[#ff6363]/[0.06] p-8 transition-opacity hover:opacity-80">
-              <h2 className="text-xl font-medium">Begin the diagnostic</h2>
+          <Link href="/diagnostic" className="pressable block">
+            <div className="glass-card rounded-2xl border border-[#ff6363]/30 bg-[#ff6363]/[0.06] p-8">
+              <h2 className="text-xl font-medium tracking-tight">Begin the diagnostic</h2>
               <p className="mt-2 max-w-xl text-sm text-muted-foreground">
                 A full assessment across reading, writing, listening, and speaking, so I can
                 plan your study with real numbers.
@@ -50,8 +50,8 @@ export default function DashboardPage() {
           transition={fadeUpTransition}
           className="grid gap-4 lg:grid-cols-5"
         >
-          <div className="rounded-2xl border border-border bg-card p-6 lg:col-span-3">
-            <h2 className="text-lg font-medium">Practice</h2>
+          <div className="glass-card rounded-2xl border border-white/[0.06] p-6 lg:col-span-3">
+            <h2 className="text-lg font-medium tracking-tight">Practice</h2>
             <p className="mt-1 text-sm text-muted-foreground">
               Choose a skill for today's exercise.
             </p>
@@ -60,7 +60,7 @@ export default function DashboardPage() {
                 <li key={label}>
                   <Link
                     href="/practice"
-                    className="flex items-center gap-3 py-3 text-sm transition-opacity hover:opacity-70"
+                    className="pressable flex items-center gap-3 py-3 text-sm hover:opacity-70"
                   >
                     <Icon className="h-4 w-4 text-[#ff6363]" aria-hidden />
                     {label}
@@ -69,9 +69,9 @@ export default function DashboardPage() {
               ))}
             </ul>
           </div>
-          <div className="flex flex-col justify-between rounded-2xl border border-border bg-card p-6 lg:col-span-2">
+          <div className="flex flex-col justify-between rounded-2xl border border-white/[0.06] bg-card p-6 lg:col-span-2">
             <div>
-              <h2 className="text-lg font-medium">Progress</h2>
+              <h2 className="text-lg font-medium tracking-tight">Progress</h2>
               <p className="mt-1 text-sm text-muted-foreground">
                 Band history and streaks will appear here after your first diagnostic. No
                 invented numbers, Master, only your real work.
@@ -79,7 +79,7 @@ export default function DashboardPage() {
             </div>
             <Link
               href="/progress"
-              className="mt-6 text-sm font-medium text-[#ff6363] transition-opacity hover:opacity-70"
+              className="pressable mt-6 text-sm font-medium text-[#ff6363] hover:opacity-70"
             >
               View progress
             </Link>

@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import { spring } from "@/lib/motion";
 
 type ChatRole = "user" | "assistant";
 interface ChatMessage {
@@ -98,7 +99,7 @@ export default function ChatPage() {
   }
 
   return (
-    <div className="flex min-h-[calc(100vh-4rem-4rem)] flex-col">
+    <div className="flex h-[calc(100dvh-10rem)] min-h-[28rem] flex-col lg:h-[calc(100vh-9rem)]">
       <PageHeader
         title="Chat with Yoru"
         description="Ask me anything about IELTS, Master. I am at your service."
@@ -107,7 +108,7 @@ export default function ChatPage() {
       {/* Scrollable message list */}
       <div
         ref={scrollRef}
-        className="mt-6 flex min-h-[60vh] flex-1 flex-col gap-3 overflow-y-auto pr-1"
+        className="mt-6 flex flex-1 flex-col gap-3 overflow-y-auto pr-1"
       >
         <AnimatePresence initial={false}>
         {messages.map((m, i) => (
@@ -115,7 +116,7 @@ export default function ChatPage() {
             key={i}
             initial={reduce ? false : { opacity: 0, y: 8 }}
             animate={reduce ? { opacity: 1 } : { opacity: 1, y: 0 }}
-            transition={{ duration: 0.25 }}
+            transition={spring}
             layout
             className={cn(
               "flex w-full",
@@ -145,8 +146,11 @@ export default function ChatPage() {
         )}
       </div>
 
-      {/* Input row */}
-      <form onSubmit={onFormSubmit} className="mt-4 flex items-end gap-2">
+      {/* Input row: translucent composer, chrome floats over content */}
+      <form
+        onSubmit={onFormSubmit}
+        className="glass-card mt-4 flex items-end gap-2 rounded-2xl border border-white/[0.06] p-2"
+      >
         <Textarea
           value={input}
           onChange={(e) => setInput(e.target.value)}
@@ -154,7 +158,7 @@ export default function ChatPage() {
           disabled={streaming}
           placeholder={streaming ? "Yoru is thinking..." : "Ask Yoru about IELTS..."}
           rows={2}
-          className="min-h-11 max-h-40 flex-1 resize-none"
+          className="min-h-11 max-h-40 flex-1 resize-none border-transparent bg-transparent shadow-none focus-visible:border-transparent focus-visible:ring-0"
           aria-label="Message Yoru"
         />
         <Button

@@ -8,6 +8,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { cn } from "@/lib/utils";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import { spring } from "@/lib/motion";
 
 type Skill = "READING" | "WRITING" | "LISTENING" | "SPEAKING";
 type Step = "intro" | "questions" | "results";
@@ -141,7 +142,7 @@ export default function DiagnosticPage() {
           initial={reduce ? false : { opacity: 0, y: 12 }}
           animate={reduce ? { opacity: 1 } : { opacity: 1, y: 0 }}
           exit={reduce ? undefined : { opacity: 0, y: -8 }}
-          transition={{ duration: 0.25 }}
+          transition={spring}
           className="mt-8 mx-auto max-w-xl"
         >
           <Card>
@@ -180,7 +181,7 @@ export default function DiagnosticPage() {
           initial={reduce ? false : { opacity: 0, y: 12 }}
           animate={reduce ? { opacity: 1 } : { opacity: 1, y: 0 }}
           exit={reduce ? undefined : { opacity: 0, y: -8 }}
-          transition={{ duration: 0.25 }}
+          transition={spring}
           className="mt-8 mx-auto max-w-2xl space-y-5"
         >
           <div className="flex flex-col gap-2">
@@ -264,7 +265,7 @@ export default function DiagnosticPage() {
           initial={reduce ? false : { opacity: 0, y: 12 }}
           animate={reduce ? { opacity: 1 } : { opacity: 1, y: 0 }}
           exit={reduce ? undefined : { opacity: 0, y: -8 }}
-          transition={{ duration: 0.25 }}
+          transition={spring}
           className="mt-8 mx-auto max-w-2xl space-y-5"
         >
           <Card>

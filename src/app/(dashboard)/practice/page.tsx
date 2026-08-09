@@ -7,6 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import { spring } from "@/lib/motion";
 
 type Skill = "READING" | "WRITING" | "LISTENING" | "SPEAKING";
 type Step = "pick" | "exercise" | "result";
@@ -127,7 +128,7 @@ export default function PracticePage() {
           initial={reduce ? false : { opacity: 0, y: 12 }}
           animate={reduce ? { opacity: 1 } : { opacity: 1, y: 0 }}
           exit={reduce ? undefined : { opacity: 0, y: -8 }}
-          transition={{ duration: 0.25 }}
+          transition={spring}
           className="mt-8 mx-auto max-w-2xl"
         >
           <div className="grid gap-3 sm:grid-cols-2">
@@ -138,7 +139,7 @@ export default function PracticePage() {
                 onClick={() => void start(skill)}
                 disabled={loading !== null}
                 className={cn(
-                  "rounded-2xl border border-white/[0.06] bg-[#101111] px-5 py-6 text-left",
+                  "pressable glass-card rounded-2xl border border-white/[0.06] px-5 py-6 text-left",
                   "transition-colors hover:border-[#ff6363]/60 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#ff6363]",
                   "disabled:cursor-not-allowed disabled:opacity-60"
                 )}
@@ -178,7 +179,7 @@ export default function PracticePage() {
           initial={reduce ? false : { opacity: 0, y: 12 }}
           animate={reduce ? { opacity: 1 } : { opacity: 1, y: 0 }}
           exit={reduce ? undefined : { opacity: 0, y: -8 }}
-          transition={{ duration: 0.25 }}
+          transition={spring}
           className="mt-8 mx-auto max-w-2xl space-y-5"
         >
           <Card>
@@ -246,7 +247,7 @@ export default function PracticePage() {
           initial={reduce ? false : { opacity: 0, y: 12 }}
           animate={reduce ? { opacity: 1 } : { opacity: 1, y: 0 }}
           exit={reduce ? undefined : { opacity: 0, y: -8 }}
-          transition={{ duration: 0.25 }}
+          transition={spring}
           className="mt-8 mx-auto max-w-2xl space-y-5"
         >
           <Card>

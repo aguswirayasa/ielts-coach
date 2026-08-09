@@ -130,13 +130,74 @@
   * {
     @apply border-border outline-ring/50;
   }
-  body {
-    @apply bg-background text-foreground;
-    letter-spacing: 0.2px; /* positive tracking on dark, subtle */
-    font-feature-settings: "calt", "kern", "liga";
-  }
   html {
     @apply font-sans;
     color-scheme: dark;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-optical-sizing: auto;
+    font-feature-settings: "calt", "kern", "liga";
+  }
+  ::selection {
+    background: rgba(255, 99, 99, 0.28);
+  }
+  /* Visible focus everywhere (R-32); buttons ship their own ring via base-ui */
+  a:focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+  /* Thin, quiet scrollbar for the dark material */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: #2a2c2f transparent;
+  }
+}
+
+@layer components {
+  /*
+   * Translucent materials (apple-design §12): dark glass for structural chrome.
+   * Accent only: sidebar, top header, tab bar. Cards stay mostly solid so
+   * light surfaces are never stacked on each other (R-10).
+   */
+  .glass {
+    background: color-mix(in oklab, var(--sidebar) 72%, transparent);
+    backdrop-filter: blur(20px) saturate(160%);
+  }
+  .glass-card {
+    background: color-mix(in oklab, var(--card) 86%, transparent);
+    backdrop-filter: blur(14px) saturate(140%);
+  }
+  /*
+   * Pointer-down feedback (apple-design §1): respond on press, not release.
+   * Instant scale, then spring back. Never applied to disabled elements.
+   */
+  .pressable {
+    transition:
+      transform 120ms cubic-bezier(0.2, 0.8, 0.2, 1),
+      opacity 120ms ease-out,
+      background-color 150ms ease-out,
+      border-color 150ms ease-out;
+  }
+  .pressable:active {
+    transform: scale(0.97);
+  }
+  [data-slot="button"]:not(:disabled):active {
+    transform: scale(0.97);
+    transition: transform 120ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+}
+
+/* Reduced transparency: solidify the glass (apple-design §14) */
+@media (prefers-reduced-transparency: reduce) {
+  .glass,
+  .glass-card {
+    background: var(--sidebar);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+  .glass-card {
+    background: var(--card);
   }
 }
