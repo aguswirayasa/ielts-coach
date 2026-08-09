@@ -32,13 +32,13 @@ export default function DashboardPage() {
       >
         <motion.div variants={fadeUp} transition={fadeUpTransition}>
           <Link href="/diagnostic" className="pressable block">
-            <div className="glass-card rounded-2xl border border-[#ff6363]/30 bg-[#ff6363]/[0.06] p-8">
+            <div className="glass-card rounded-2xl border border-[var(--primary)]/30 bg-[var(--primary)]/[0.06] p-8">
               <h2 className="text-xl font-medium tracking-tight">Begin the diagnostic</h2>
               <p className="mt-2 max-w-xl text-sm text-muted-foreground">
                 A full assessment across reading, writing, listening, and speaking, so I can
                 plan your study with real numbers.
               </p>
-              <span className="mt-5 inline-block rounded-lg bg-[#ff6363] px-4 py-2 text-sm font-semibold text-[#18191a]">
+              <span className="mt-5 inline-block rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground">
                 Start diagnostic
               </span>
             </div>
@@ -53,7 +53,7 @@ export default function DashboardPage() {
           <div className="glass-card rounded-2xl border border-white/[0.06] p-6 lg:col-span-3">
             <h2 className="text-lg font-medium tracking-tight">Practice</h2>
             <p className="mt-1 text-sm text-muted-foreground">
-              Choose a skill for today's exercise.
+              Choose a skill for today&apos;s exercise.
             </p>
             <ul className="mt-4 divide-y divide-border">
               {SKILLS.map(({ label, icon: Icon }) => (
@@ -62,7 +62,7 @@ export default function DashboardPage() {
                     href="/practice"
                     className="pressable flex items-center gap-3 py-3 text-sm hover:opacity-70"
                   >
-                    <Icon className="h-4 w-4 text-[#ff6363]" aria-hidden />
+                    <Icon className="h-4 w-4 text-[var(--primary)]" aria-hidden />
                     {label}
                   </Link>
                 </li>
@@ -79,7 +79,7 @@ export default function DashboardPage() {
             </div>
             <Link
               href="/progress"
-              className="pressable mt-6 text-sm font-medium text-[#ff6363] hover:opacity-70"
+              className="pressable mt-6 text-sm font-medium text-[var(--primary)] hover:opacity-70"
             >
               View progress
             </Link>

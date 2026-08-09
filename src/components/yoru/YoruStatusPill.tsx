@@ -24,10 +24,10 @@ export function YoruStatusPill() {
 
   const dot =
     status === "online"
-      ? "bg-[#ff6363] shadow-[0_0_8px_rgba(255,99,99,0.7)]"
+      ? "bg-emerald-500"
       : status === "offline"
-        ? "bg-[#434345]"
-        : "bg-[#ffbc33] animate-pulse";
+        ? "bg-muted-foreground"
+        : "bg-amber-500 animate-pulse";
   const label =
     status === "online" ? "Yoru online" : status === "offline" ? "Yoru offline" : "Yoru …";
 

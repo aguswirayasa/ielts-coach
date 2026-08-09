@@ -140,7 +140,7 @@ export default function PracticePage() {
                 disabled={loading !== null}
                 className={cn(
                   "pressable glass-card rounded-2xl border border-white/[0.06] px-5 py-6 text-left",
-                  "transition-colors hover:border-[#ff6363]/60 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#ff6363]",
+                  "transition-colors hover:border-[var(--primary)]/60 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--primary)]",
                   "disabled:cursor-not-allowed disabled:opacity-60"
                 )}
               >
@@ -160,7 +160,7 @@ export default function PracticePage() {
           )}
           {error && (
             <div className="mt-6" role="alert">
-              <p className="text-sm text-[#ff6363]">{error}</p>
+              <p className="text-sm text-[var(--primary)]">{error}</p>
               <Button
                 variant="outline"
                 onClick={() => setError(null)}
@@ -213,7 +213,7 @@ export default function PracticePage() {
           </Card>
 
           {error && (
-            <p className="text-sm text-[#ff6363]" role="alert">
+            <p className="text-sm text-[var(--primary)]" role="alert">
               {error}
             </p>
           )}
@@ -255,7 +255,7 @@ export default function PracticePage() {
               <p className="text-xs font-medium text-muted-foreground">
                 Estimated band
               </p>
-              <p className="text-5xl font-semibold text-[#ff6363]">
+              <p className="text-5xl font-semibold text-[var(--primary)]">
                 {formatBand(result.bandEstimate)}
               </p>
               <p className="text-sm leading-relaxed text-muted-foreground">
@@ -321,7 +321,7 @@ export default function PracticePage() {
           )}
 
           {error && (
-            <p className="text-sm text-[#ff6363]" role="alert">
+            <p className="text-sm text-[var(--primary)]" role="alert">
               {error}
             </p>
           )}

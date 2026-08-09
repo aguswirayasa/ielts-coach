@@ -158,7 +158,7 @@ export default function DiagnosticPage() {
                 plan.
               </p>
               {error && (
-                <p className="text-sm text-[#ff6363]" role="alert">
+                <p className="text-sm text-[var(--primary)]" role="alert">
                   {error}
                 </p>
               )}
@@ -224,7 +224,7 @@ export default function DiagnosticPage() {
           </Card>
 
           {error && (
-            <p className="text-sm text-[#ff6363]" role="alert">
+            <p className="text-sm text-[var(--primary)]" role="alert">
               {error}
             </p>
           )}
@@ -273,12 +273,12 @@ export default function DiagnosticPage() {
               <p className="text-xs font-medium text-muted-foreground">
                 Overall band
               </p>
-              <p className="text-5xl font-semibold text-[#ff6363]">
+              <p className="text-5xl font-semibold text-[var(--primary)]">
                 {formatBand(result.overallBand)}
               </p>
               <p className="text-sm text-muted-foreground">
                 Weakest skill:{" "}
-                <span className="font-medium text-[#ff6363]">
+                <span className="font-medium text-[var(--primary)]">
                   {SKILL_LABEL[result.weakestSkill]}
                 </span>
               </p>
@@ -293,7 +293,7 @@ export default function DiagnosticPage() {
                   className={cn(
                     "flex items-center justify-between gap-3 py-3.5",
                     skill === result.weakestSkill &&
-                      "bg-[#ff6363]/[0.06] px-3 -mx-3"
+                      "bg-[var(--primary)]/[0.06] px-3 -mx-3"
                   )}
                 >
                   <div className="flex items-center gap-2">
@@ -301,7 +301,7 @@ export default function DiagnosticPage() {
                       {SKILL_LABEL[skill]}
                     </span>
                     {skill === result.weakestSkill && (
-                      <span className="text-xs font-medium text-[#ff6363]">
+                      <span className="text-xs font-medium text-[var(--primary)]">
                         Weakest
                       </span>
                     )}

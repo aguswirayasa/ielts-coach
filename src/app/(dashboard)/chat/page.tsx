@@ -127,7 +127,7 @@ export default function ChatPage() {
               className={cn(
                 "max-w-[85%] whitespace-pre-wrap rounded-2xl px-4 py-2.5 text-sm leading-relaxed sm:max-w-[70%]",
                 m.role === "user"
-                  ? "bg-[#ff6363] text-[#18191a]"
+                  ? "bg-primary text-primary-foreground"
                   : "border border-border bg-card text-foreground"
               )}
             >
